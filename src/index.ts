@@ -9,8 +9,11 @@ import routes from './routes';
 import Database from './config/database';
 import ErrorHandler from './middlewares/error.middleware';
 import Logger from './config/logger';
+import swaggerUi from 'swagger-ui-express';
 
 import morgan from 'morgan';
+import swaggerDocument from './swagger/openApi.json';
+
 
 class App {
   public app: Application;
@@ -50,6 +53,7 @@ class App {
 
   public initializeRoutes(): void {
     this.app.use(`/api/${this.api_version}`, routes());
+    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
   }
 
   public initializeErrorHandlers(): void {

@@ -1,0 +1,526 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "EbookStore",
+        "description": "This is replica of ECommerce Site for trading of Ebooks. User can register and login, user can buy books by entering details for transporting books. It contains books details and cart is used for checkout for buying books."
+    },
+    "servers": [
+        {
+            "url": "http://localhost:4000/api/v1/"
+        }
+    ],
+    "tags": [
+        {
+            "name": "EbookStore for buying Books",
+            "description": "This is the replica of ecommerce site for buying books"
+        }
+    ],
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Create User",
+                "description": "Register user...",
+                "requestBody": {
+                    "description": "Register user",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created successfully",
+                        "content": {}
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {}
+                    }
+                },
+                "x-codegen-request-body-name": "Register new name"
+            }
+        },
+        "/users/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "User Login",
+                "requestBody": {
+                    "description": "User login",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserLogin"
+                            }
+                        },
+                        "required": true
+                    }
+                    },
+                "responses": {
+                    "201": {
+                        "description": "Logged in Successfully 🚀🚀🚀",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserLoginResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "EmailId not found",
+                        "content": {}
+                    },
+                    "400": {
+                        "description": "Server Error",
+                        "content": {}
+                    }
+                },
+                "x-codegen-request-body-name": "login-user"
+            }
+        },
+        "/users/forgetPwd": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Forget Password",
+                "requestBody": {
+                    "description": "Forget Password",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ForgetPassword"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Password reset Token generated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForgetPasswordResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {}
+                    }
+                },
+                "x-codegen-request-body-name": "Forget Password"
+            }
+        },
+        "/users/resetPwd" :{
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "reset password for User",
+                "requestBody": {
+                    "description": "new password",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ResetPassword"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password reset successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResetPasswordResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {}
+                    }
+                },
+                "x-codegen-request-body-name": "New Password"
+            }
+        },
+        "/book/getbook/{id}": {
+            "get": {
+                "tags": [
+                    "Book"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Get Book Details",
+                "responses": {
+                    "200": {
+                        "description": "Got Book Details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description":"Internal Server Error",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/book/getallbooks":{
+            "get": {
+                "summary": "Get Books Array",
+                "tags": ["Book"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Got Books Array",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Book"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                }
+                
+            }
+
+        },
+        "/book/updatebook/{id}":{
+            "put": {
+                "summary": "Update the book details",
+                "tags": ["Book"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Books update details",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/updateBook"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated the Book details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/updateBookResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/book/delbook/{id}": {
+            "delete": {
+                "summary": "Delete the Book",
+                "tags": ["Book"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "requestBody": {
+                "description": "Delete the book details",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/delBook"
+                        }
+                    }
+                },
+                "required": false
+            },
+            "responses": {
+                "201": {
+                    "description": "Deleted the Book details",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/delBook"
+                            }
+                        }
+                    }
+                },
+                "500": {
+                    "description": "Internal Server Error",
+                    "content": {}
+                }
+            }
+        },
+        "/cart/addItem/{id}": {
+            "post": {
+                "summary": "Add item to the cart",
+                "tags": ["Cart"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "Added item in the cart",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AddItem"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Items added to Cart",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AddItemResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/cart/delItem/{id}": {
+            "delete": {
+                "summary": "Removed Item from the cart",
+                "tags": ["Cart"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "Items remove from the cart",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/delItem"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Items removed from the cart",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/delItemResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/cart/updateItem/{id}": {
+            "put": {
+                "summary": "Update the Items",
+                "tags": ["Cart"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "Update the item",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateItem"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Items Updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateItemResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+        "User": {
+                "type": "object",
+                "properties": {
+                    "FullName": "string",
+                    "EmailId": "string",
+                    "Password": "string",
+                    "MobileNo": "string",
+                    "Role": "string"
+                },
+                "required": ["EmailId", "FullName", "Password"]
+        },
+        "UserResponse": {
+            "type": "object",
+            "properties": {
+                "_id": "string",
+                "EmailId": "string",
+                "FullName": "string",
+                "MobileNo": "string",
+                "Password": "string",
+                "Role": "string"
+            }
+        },
+        "UserLogin": {
+            "type": "object",
+            "properties": {
+                "EmailId": {
+                    "type": "string"
+                },
+                "Password": {
+                    "type": "string"
+                }
+            },
+            "required": ["EmailId", "Password"]
+        },
+        "UserLoginResponse": {
+            "type": "object",
+            "properties": {
+                "FullName": "string",
+                "EmailId": "string",
+                "MobileNo": "string",
+                "Token": "string"
+            }
+        },
+        "ForgetPassword": {
+            "type": "object",
+            "properties": {
+                "EmailId": "string"
+            }
+        },
+        "ForgetPasswordResponse": {
+            "type": "object",
+            "properties": {
+                "Token": "string"
+            }
+        },
+        "ResetPassword": {
+            "type": "object",
+            "properties": {
+                "Password": {
+                    "type": "string"
+                },
+                "Token": {
+                    "type": "string"
+                }
+            },
+            "required": ["Password", "Token"]
+        },
+        "ResetPasswordResponse" :{
+            "type": "object",
+            "properties": {}
+        },
+        "Book": {
+            "type": "object",
+            "properties": {}
+        },
+        "BookResponse": {
+            "type": "object",
+            "properties": {
+                "admin_user_id": "string",
+                "bookName": "string",
+                "discountPrice": "string",
+                "author": "string",
+                "bookImage": "string",
+                "quantity": "number",
+                "price": "number",
+                "description": "string"
+            }
+        }
+    },
+    "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

@@ -13,9 +13,12 @@ class UserService {
   };
 
   // login user
-  public Login = async (EmailId: string, Password: string): Promise<IUser> => {
-    const data = await User.findOne({EmailId, Password});
-    return data;
+  public Login = async (EmailId: string, Password: string): Promise<any> => {
+    const user = await User.findOne({EmailId}).exec();
+    if(user){
+      const validate = await bcrypt.compare(Password, user.Password); 
+    }
+    return user;
   };
 
 
