@@ -1,7 +1,4 @@
 import Cart from "../models/cart.model";
-import { ICart } from "../interfaces/cart.interface";
-import HttpStatus from 'http-status-codes';
-import CartController from "../controllers/cart.controller";
 import Book from "../models/book.model";
 import { log } from "winston";
 
@@ -71,9 +68,19 @@ class CartService {
         }
     }
 
-    public UpdateItem = async (_id: string, bookId: string, body: Object): Promise<Object> =>{
-        const data = await Cart.findByIdAndUpdate(_id, body);
-        return data;
+    public UpdateItem = async (_id: string): Promise<any> =>{
+        const user =  await Cart.findOne({userId: _id});
+        user.books.forEach(async(book) => {
+            let updateBook = await Book.findOne({_id: book.bookId});
+            updateBook.quantity -= book.quantity;
+            updateBook.save();
+        })
+        user.books = [];
+        user.totalPrice = 0;
+        user.totalDiscountPrice = 0;
+        user.totalQuantity = 0;
+        user.save();
+        return user;
     }
 
 }

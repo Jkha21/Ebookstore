@@ -8,8 +8,6 @@ export interface IWishList extends Document {
         bookName: string;
         bookImage: string;
         author: string;
-        quantity: number;
         price: number;
-        description: String;
-    }   
+    }[]   
 }
