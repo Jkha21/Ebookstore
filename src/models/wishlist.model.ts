@@ -1,5 +1,5 @@
 import { Schema, Types, model } from 'mongoose';
-import { IWishList } from '../interfaces/wishlist.interface';
+import { IWishList } from '../interfaces/wishList.interface';
 
 const bookSchema = new Schema(
   {

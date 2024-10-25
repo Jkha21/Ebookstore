@@ -49,7 +49,6 @@ class UserController {
   ): Promise<void> => {
     try {
       const userData = await this.UserService.Login(req.body.EmailId, req.body.Password);
-      console.log(userData);
       if(userData){
         const {FullName, EmailId, MobileNo, _id} = userData;
         const Token = await UserTokenUtil.generateToken({EmailId, _id}, process.env.SECRET_KEY_0, "24h");

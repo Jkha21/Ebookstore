@@ -24,9 +24,9 @@ const bookSchema = new Schema(
     price: {
       type: Number
     },
-      description: {
-        type: String
-      }
+    bookName: {
+      type: String
+    }
   }
 )
 
@@ -34,7 +34,7 @@ const bookSchema = new Schema(
 const cartSchema = new Schema(
   {
     userId: {
-      type: Types.ObjectId,
+      type: String,
       required: true
     },
     books: {

@@ -11,7 +11,7 @@ class CustomerRoute{
     private routes = () => {
 
         this.router.post(
-            '/',
+            '/addItem',
             userAuth,
             this.CustomerController.AddCustomer
         );
@@ -21,6 +21,12 @@ class CustomerRoute{
             userAuth,
             this.CustomerController.EditCustomer
         );
+
+        this.router.get(
+            "",
+            userAuth,
+            this.CustomerController.GetCustomer
+        )
     }
 
     public getRoutes = (): IRouter =>{

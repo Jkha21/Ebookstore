@@ -7,8 +7,7 @@ class BookController{
 
     public GetAllBooks = async(req: Request, res: Response, next: NextFunction): Promise<void> =>{
         try{
-            console.log(req.body.admin_user_id);
-            const data = await this.BookService.GetAllBooks(req.body.admin_user_id);
+            const data = await this.BookService.GetAllBooks();
             res.status(HttpStatus.OK).json({
                 code: HttpStatus.OK,
                 data: data,

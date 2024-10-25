@@ -14,9 +14,15 @@ class OrderRoute {
     private routes = () =>{
 
         this.router.post(
-            '',
+            '/addItem',
             userAuth,
             this.OrderController.Checkout
+        )
+
+        this.router.get(
+            "",
+            userAuth, 
+            this.OrderController.OrderItems
         )
     }
 

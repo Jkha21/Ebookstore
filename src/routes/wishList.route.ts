@@ -11,8 +11,16 @@ class WishListRoute {
         this.routes();
     }
     private routes = () => {
+
         this.router.get(
-            '/addItem/:id',
+            "", 
+            userAuth, 
+            this.WishListController.GetWishlist
+        )
+
+
+        this.router.post(
+            '/addItem',
             userAuth,
             this.WishListController.AddItem
         );
@@ -22,6 +30,7 @@ class WishListRoute {
             userAuth,
             this.WishListController.RemoveItem
         )
+
     }
 
     public getRoutes = (): IRouter =>{

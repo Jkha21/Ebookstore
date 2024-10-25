@@ -17,7 +17,10 @@ class UserService {
     const user = await User.findOne({EmailId}).exec();
     if(user){
       const validate = await bcrypt.compare(Password, user.Password); 
+      return validate? user: false;
     }
+    console.log(user);
+    
     return user;
   };
 

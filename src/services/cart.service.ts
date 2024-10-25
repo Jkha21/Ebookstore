@@ -1,8 +1,35 @@
 import Cart from "../models/cart.model";
 import Book from "../models/book.model";
 import { log } from "winston";
+import { Types} from 'mongoose';
 
 class CartService {
+
+    public GetItems = async(_id: string): Promise<any> =>{
+        const list = await Cart.find({userId: _id});
+        return list;
+    }
+
+    public AddItemCart = async(body: any, id: string): Promise<any> =>{
+        const user = await Cart.findOne({userId: id});
+        const {_id, bookImage, bookName, discountPrice, price, quantity, author} = body;
+        const bookObj  = {bookId: _id, discountPrice, price, author, quantity, bookImage, bookName};
+        if(user){
+            user.totalPrice += price;
+            user.totalQuantity += quantity;
+            user.totalDiscountPrice += discountPrice;
+            user.books.push(bookObj);
+            user.save();
+            return user;
+        }else{
+            let totalPrice = price*quantity;
+            let totalQuantity = quantity;
+            let totalDiscountPrice = discountPrice*quantity;
+            const user = await Cart.create({userId: id, books: [bookObj], totalPrice, totalQuantity, totalDiscountPrice});
+            console.log(user);
+            return user;
+        }
+    }
 
     public AddItem = async (_id: string, bookId: string): Promise<any> =>{
         const user = await Cart.findOne({userId: _id});
@@ -14,7 +41,7 @@ class CartService {
                 let quantity: number = 1;
                 user.totalPrice += book.price;
                 user.totalDiscountPrice += book.discountPrice;
-                user.books.push({bookId, bookName, bookImage, author, price, description, quantity, discountPrice});
+                user.books.push({bookId, bookName, bookImage, author, price, quantity, discountPrice});
                 user.totalQuantity += 1;
                 user.save();
             }else{
@@ -33,7 +60,7 @@ class CartService {
             quantity = 1;
             user.totalPrice += book.price;
             user.totalDiscountPrice += book.discountPrice;
-            user.books.push({bookId, bookName, bookImage, author, quantity, price, description, discountPrice});
+            user.books.push({bookId, bookName, bookImage, author, quantity, price, discountPrice});
             user.totalQuantity += 1;
             user.save();
             return user;
@@ -68,19 +95,20 @@ class CartService {
         }
     }
 
-    public UpdateItem = async (_id: string): Promise<any> =>{
-        const user =  await Cart.findOne({userId: _id});
-        user.books.forEach(async(book) => {
-            let updateBook = await Book.findOne({_id: book.bookId});
-            updateBook.quantity -= book.quantity;
-            updateBook.save();
-        })
-        user.books = [];
-        user.totalPrice = 0;
-        user.totalDiscountPrice = 0;
-        user.totalQuantity = 0;
-        user.save();
-        return user;
+    public UpdateItem = async (_id: string, body: any): Promise<any> =>{
+        try{
+            console.log(_id, body);
+            const user =  await Cart.findOne({userId: _id});
+            console.log(user);
+            const updateBook = user.books.find(book => book.bookId === body._id);
+            user.totalQuantity += (body.quantity - updateBook.quantity);
+            updateBook.quantity = body.quantity;
+            user.save();
+            return user;
+        }catch(error){
+            console.log(error);
+        }
+        
     }
 
 }

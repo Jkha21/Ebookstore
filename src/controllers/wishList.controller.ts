@@ -5,9 +5,26 @@ import WishListService from '../services/wishList.service';
 class WishListController {
     public WishListService  = new WishListService();
 
+    public GetWishlist = async(req: Request, res: Response, next: NextFunction): Promise<void> =>{
+        try{
+            const data = await this.WishListService.GetWishlist(req.body.userId);
+            res.status(HttpStatus.OK).json({
+                code: HttpStatus.OK,
+                data: data,
+                message: "fetched the wishlist"
+            })
+        }catch(error){
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                code: HttpStatus.INTERNAL_SERVER_ERROR,
+                data: "",
+                message: "Internal Server Error"
+            })
+        }
+    }
+
     public AddItem = async(req: Request, res: Response, next: NextFunction): Promise<void> => {
         try{
-            const data = await this.WishListService.AddItem(req.body.userId, req.params.id);
+            const data = await this.WishListService.AddItem(req.body.userId, req.body);
             res.status(HttpStatus.CREATED).json({
                 code: HttpStatus.CREATED,
                 data: data,

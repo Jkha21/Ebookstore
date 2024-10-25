@@ -13,9 +13,8 @@ class BookService {
         return data;
     }
 
-    public GetAllBooks = async (id: string): Promise<Object[]> =>{
-        const booksArray = await Book.find({admin_user_id: id});
-        console.log(booksArray);
+    public GetAllBooks = async (): Promise<Object[]> =>{
+        const booksArray = await Book.find();
         return booksArray;
     }
 

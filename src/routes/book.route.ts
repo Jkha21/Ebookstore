@@ -39,7 +39,7 @@ class BookRoute {
 
         this.router.get(
             '/getallbooks',
-            userAuth,
+            // userAuth,
             this.BookController.GetAllBooks
         )
         

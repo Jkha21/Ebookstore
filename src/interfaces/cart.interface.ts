@@ -3,7 +3,7 @@ import { IBook } from './book.interace';
 
 export interface ICart extends Document {
 
-  userId: Types.ObjectId;
+  userId: String;
   books: {
     bookId: string;
     discountPrice: number;
@@ -12,7 +12,6 @@ export interface ICart extends Document {
     author: string;
     quantity: number;
     price: number;
-    description: String;
     
   }[];
   totalPrice: number;

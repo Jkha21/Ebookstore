@@ -15,6 +15,18 @@ class CartRoute{
     private routes = () =>{
 
         this.router.get(
+            '',
+            userAuth,
+            this.CartController.GetItems
+        );
+
+        this.router.post(
+            "/addCart",
+            userAuth,
+            this.CartController.AddItemCart
+        )
+
+        this.router.get(
             '/addItem/:id', 
             userAuth,
             // this.CartValidator.AddItem,
@@ -29,9 +41,9 @@ class CartRoute{
         );
 
         this.router.put(
-            '/updateItem/:id',
+            '/updateItem/',
             userAuth,
-            this.CartValidator.UpdateItem,
+            // this.CartValidator.UpdateItem,
             this.CartController.UpdateItem
         );
 

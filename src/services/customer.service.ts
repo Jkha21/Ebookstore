@@ -14,6 +14,11 @@ class CustomerService{
         return user;
     }
 
+    public GetCustomer = async(id: string): Promise<any> =>{
+        const user = await Customer.find({userId: id});
+        return user;
+    }
+
 }
 
 export default CustomerService;
