@@ -56,6 +56,24 @@ class CustomerController {
             })
         }
     };
+
+    public AddAddress = async(req: Request, res: Response, next: NextFunction): Promise<void> =>{
+        try{
+
+            const user = await this.CustomerService.EditAddress(req.body.userId, req.body);
+            res.status(HttpStatus.OK).json({
+                code: HttpStatus.OK,
+                data: user,
+                message: "Added The Address Details"
+            });
+        }catch(error){
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                code: HttpStatus.INTERNAL_SERVER_ERROR,
+                data: "",
+                message: "Internal Server Error"
+            })
+        }
+    };
 }
 
 export default CustomerController;

@@ -27,6 +27,12 @@ class CustomerRoute{
             userAuth,
             this.CustomerController.GetCustomer
         )
+
+        this.router.put(
+            "/addAddress",
+            userAuth,
+            this.CustomerController.AddAddress
+        )
     }
 
     public getRoutes = (): IRouter =>{

@@ -27,7 +27,8 @@ const customerSchema = new Schema(
   {
     userId: {
       type: Types.ObjectId,
-      required: true
+      required: true,
+      unique: true
     },
     FullName: {
         type: String
